@@ -58,8 +58,6 @@ html, body, main
 
 @media screen and (max-width: 440px)
 {
-    .fullScreen{display: none;}
-
     .main
     {
         width: 100%;
@@ -458,10 +456,8 @@ html, body, main
         height: 160px;
     }
 
+
     .landscape{display: none;}
-
-
-    .fullScreen{display: none;}
 }
 
 
@@ -665,10 +661,8 @@ html, body, main
         height: 150px;
     }
 
+
     .landscape{display: none;}
-
-
-    .fullScreen{display: none;}
 }
 
 
@@ -717,9 +711,6 @@ html, body, main
 
 
     .landscape{display: none;}
-
-
-    .fullScreen{display: none;}
 }
 
 
@@ -736,14 +727,11 @@ html, body, main
     }
 
 
-    .landscape
+    main
     {
         width: 100%;
         height: 100%;
         background: url('./img/not_available.png') no-repeat;
         background-size: contain;
     }
-
-
-    /* .fullScreen{display: none;} */
 }
