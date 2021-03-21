@@ -15,6 +15,12 @@ const htmlElements = {
 }
 
 
+const variables = {
+    status : 0,
+    startTouch : null,
+}
+
+
 const showContent = function showContentFirstLoad() {
     setTimeout(() => {
         htmlElements.titleOfTea.style.top = 0;
@@ -54,10 +60,16 @@ const showImg =  function showBgiForSlide(param) {
             item.style.transform = 'scale(' + 0 + ')';
         }
     });
+
+    htmlElements.main.style.backgroundImage = `url('./img/${param}-BG.jpg')`;
+    htmlElements.imgNew.style.backgroundImage = `url('./img/${param}-new.png')`;
+    htmlElements.titleOfTea.style.backgroundImage = `url('./img/bg-img/${param}-tagline.png')`;
 }
 
 
 const leftSlide = function showLeftSlide() {
+    variables.status = 1;
+
     htmlElements.itemsSlider.forEach(item => {
         if(item.offsetLeft < 0){
             item.style.opacity = 1;
@@ -73,10 +85,16 @@ const leftSlide = function showLeftSlide() {
             item.style.opacity = 0;
         }
     });
+
+    setTimeout(() => {
+        variables.status = 0;
+    }, 520);
 }
 
 
 const rightSlide = function showRightSlide() {
+    variables.status = 1;
+
     htmlElements.itemsSlider.forEach(item => {
         if(item.offsetLeft > 0){
             item.style.opacity = 1;
@@ -92,10 +110,45 @@ const rightSlide = function showRightSlide() {
             item.style.opacity = 0;
         }
     });
+
+    setTimeout(() => {
+        variables.status = 0;
+    }, 520);
 }
 
 
 htmlElements.main.addEventListener('click', event => {
-    event.target.closest('.rightSlide') ? rightSlide() : null;
-    event.target.closest('.leftSlide') ? leftSlide() : null;
+    if(event.target.closest('.rightSlide') && variables.status === 0){
+        rightSlide()
+    }
+    if(event.target.closest('.leftSlide') && variables.status === 0){
+        leftSlide();
+    }
 });
+
+
+// ============== swipe =================
+
+htmlElements.wrapperSlider.addEventListener('touchstart', touchStart, false);
+htmlElements.wrapperSlider.addEventListener('touchmove', touchMove, false);
+
+
+function touchStart(event) {
+    variables.startTouch = event.touches[0].clientX;
+} 
+
+
+function touchMove(event) {
+    if(!variables.startTouch){
+        return false;
+    }
+
+    let endTouch = event.touches[0].clientX,
+        diff = endTouch - variables.startTouch;
+
+    if(variables.status === 0){
+        diff > 0 ? rightSlide() : leftSlide();
+    }
+
+    variables.startTouch = null;
+}
